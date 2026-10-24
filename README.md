@@ -17,10 +17,6 @@ It depends on nothing service-specific. Services take it as a git dependency pin
 
     thecargo = { git = "https://github.com/TheCarGo-io/thecargo-lib-rs", tag = "v0.1.0" }
 
-The repository is private, so a service's builds need read access to it: locally through git's own
-credentials (`net.git-fetch-with-cli` in the service's `.cargo/config.toml`), in CI and Docker
-builds through a token (see thecargo-analytics-rs).
-
     cargo nextest run
 
 A change that a service needs ships as a new tag; the service moves its pin.
