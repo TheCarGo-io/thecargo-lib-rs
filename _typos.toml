@@ -1,0 +1,4 @@
+[default.extend-words]
+# JWT claims minted by thecargo-auth: ot = organization type, otz = organization timezone.
+ot = "ot"
+otz = "otz"

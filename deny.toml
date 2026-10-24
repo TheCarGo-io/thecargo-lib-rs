@@ -1,0 +1,40 @@
+[graph]
+targets = ["x86_64-unknown-linux-gnu", "aarch64-apple-darwin"]
+
+[advisories]
+ignore = [
+    # rsa comes in only through jsonwebtoken's rust_crypto backend; tokens here are HS256 and no RSA key is ever loaded.
+    { id = "RUSTSEC-2023-0071", reason = "RSA is compiled in by jsonwebtoken but never used: HS256 only" },
+    # crypto-bigint 0.5 comes in through jsonwebtoken's p256/p384 (ES256/ES384); no ECDSA key is ever loaded.
+    # Drop this when jsonwebtoken moves to elliptic-curve 0.14 (11.1.0 is the latest on 2026-10-24).
+    { id = "RUSTSEC-2026-0387", reason = "ECDSA is compiled in by jsonwebtoken but never used: HS256 only" },
+]
+
+[licenses]
+confidence-threshold = 0.9
+allow = [
+    "0BSD",
+    "Apache-2.0",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "BSL-1.0",
+    "ISC",
+    "MIT",
+    "Unicode-3.0",
+    "Unlicense",
+    "Zlib",
+]
+
+[licenses.private]
+ignore = true
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+allow-wildcard-paths = true
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []
