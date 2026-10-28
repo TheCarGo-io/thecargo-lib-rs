@@ -1,0 +1,1819 @@
+{
+ "_blank": {
+  "fields": [
+   {
+    "hint": "no match found in email",
+    "item_name": "customer_first_name",
+    "key": "first_name",
+    "label": "FIRST NAME",
+    "matched_label": null,
+    "section": "SHIPPER",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "customer_last_name",
+    "key": "last_name",
+    "label": "LAST NAME",
+    "matched_label": null,
+    "section": "SHIPPER",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "customer_phone",
+    "key": "phone",
+    "label": "PHONE",
+    "matched_label": null,
+    "section": "SHIPPER",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "customer_email",
+    "key": "email",
+    "label": "EMAIL",
+    "matched_label": null,
+    "section": "SHIPPER",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "origin_city",
+    "key": "pickup_city",
+    "label": "PICKUP CITY",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "origin_state",
+    "key": "pickup_state",
+    "label": "PICKUP STATE",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "origin_zip",
+    "key": "pickup_zip",
+    "label": "PICKUP ZIP",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "destination_city",
+    "key": "delivery_city",
+    "label": "DELIVERY CITY",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "destination_state",
+    "key": "delivery_state",
+    "label": "DELIVERY STATE",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "destination_zip",
+    "key": "delivery_zip",
+    "label": "DELIVERY ZIP",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "vehicle_year",
+    "key": "year",
+    "label": "YEAR",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "vehicle_make",
+    "key": "make",
+    "label": "MAKE",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "vehicle_model",
+    "key": "model",
+    "label": "MODEL",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "condition",
+    "key": "condition",
+    "label": "CONDITION",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "transport_type",
+    "key": "trailer_type",
+    "label": "TRAILER TYPE",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "vehicle_type",
+    "key": "vehicle_type",
+    "label": "VEHICLE TYPE",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "first_available_date",
+    "key": "ship_date",
+    "label": "SHIP DATE",
+    "matched_label": null,
+    "section": "SHIPMENT",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "notes",
+    "key": "notes",
+    "label": "NOTES",
+    "matched_label": null,
+    "section": "SHIPMENT",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   }
+  ],
+  "summary": {
+   "matched": 0,
+   "not_found": 18,
+   "review": 0,
+   "vehicles_detected": 0
+  },
+  "vehicles": []
+ },
+ "_dates": [
+  [
+   "11/02/2026",
+   "2026-11-02"
+  ],
+  [
+   "11-02-2026",
+   "2026-11-02"
+  ],
+  [
+   "2026-11-02",
+   "2026-11-02"
+  ],
+  [
+   "11/02/26",
+   "2026-11-02"
+  ],
+  [
+   "31/12/2026",
+   "2026-12-31"
+  ],
+  [
+   "March 5, 2027",
+   "2027-03-05"
+  ],
+  [
+   "Mar 5, 2027",
+   "2027-03-05"
+  ],
+  [
+   "11.02.2026",
+   "2026-11-02"
+  ],
+  [
+   "2026/11/02",
+   "2026-11-02"
+  ],
+  [
+   "31-12-2026",
+   "2026-12-31"
+  ],
+  [
+   "11 02 2026",
+   "2026-11-02"
+  ],
+  [
+   "5 Mar 2027",
+   "2027-03-05"
+  ],
+  [
+   "nonsense",
+   null
+  ],
+  [
+   "",
+   null
+  ],
+  [
+   null,
+   null
+  ],
+  [
+   " 2026-02-30 ",
+   null
+  ],
+  [
+   "02/30/2026",
+   null
+  ],
+  [
+   "1/5/2026",
+   "2026-01-05"
+  ]
+ ],
+ "_status": [
+  [
+   "email",
+   "a@b.co",
+   "matched"
+  ],
+  [
+   "email",
+   "a@b",
+   "review"
+  ],
+  [
+   "phone",
+   "555-01",
+   "review"
+  ],
+  [
+   "phone",
+   "5550199",
+   "matched"
+  ],
+  [
+   "pickup_state",
+   "il",
+   "matched"
+  ],
+  [
+   "pickup_state",
+   "ill",
+   "review"
+  ],
+  [
+   "pickup_zip",
+   "60601-1234",
+   "matched"
+  ],
+  [
+   "pickup_zip",
+   "6060",
+   "review"
+  ],
+  [
+   "year",
+   "2021",
+   "matched"
+  ],
+  [
+   "year",
+   "1899",
+   "review"
+  ],
+  [
+   "ship_date",
+   "11/02/2026",
+   "matched"
+  ],
+  [
+   "ship_date",
+   "soon",
+   "review"
+  ],
+  [
+   "notes",
+   " ",
+   "not_found"
+  ],
+  [
+   "notes",
+   "x",
+   "matched"
+  ],
+  [
+   "email",
+   null,
+   "not_found"
+  ]
+ ],
+ "custom_labels_and_index": {
+  "fields": [
+   {
+    "hint": "matched from \"Shipper: Alice\"",
+    "item_name": "customer_first_name",
+    "key": "first_name",
+    "label": "FIRST NAME",
+    "matched_label": "shipper",
+    "section": "SHIPPER",
+    "source": "Shipper: Alice",
+    "status": "matched",
+    "value": "Alice"
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "customer_last_name",
+    "key": "last_name",
+    "label": "LAST NAME",
+    "matched_label": null,
+    "section": "SHIPPER",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "matched from \"Tel: 773-555-0100\"",
+    "item_name": "customer_phone",
+    "key": "phone",
+    "label": "PHONE",
+    "matched_label": "tel",
+    "section": "SHIPPER",
+    "source": "Tel: 773-555-0100",
+    "status": "matched",
+    "value": "773-555-0100"
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "customer_email",
+    "key": "email",
+    "label": "EMAIL",
+    "matched_label": null,
+    "section": "SHIPPER",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "matched from \"From: Seattle\"",
+    "item_name": "origin_city",
+    "key": "pickup_city",
+    "label": "PICKUP CITY",
+    "matched_label": "from",
+    "section": "LOCATION",
+    "source": "From: Seattle",
+    "status": "matched",
+    "value": "Seattle"
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "origin_state",
+    "key": "pickup_state",
+    "label": "PICKUP STATE",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "origin_zip",
+    "key": "pickup_zip",
+    "label": "PICKUP ZIP",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "destination_city",
+    "key": "delivery_city",
+    "label": "DELIVERY CITY",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "destination_state",
+    "key": "delivery_state",
+    "label": "DELIVERY STATE",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "destination_zip",
+    "key": "delivery_zip",
+    "label": "DELIVERY ZIP",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "matched from \"Year: 2022\"",
+    "item_name": "vehicle_year",
+    "key": "year",
+    "label": "YEAR",
+    "matched_label": "year",
+    "section": "VEHICLE",
+    "source": "Year: 2022",
+    "status": "matched",
+    "value": "2022"
+   },
+   {
+    "hint": "matched from \"Car: BMW\"",
+    "item_name": "vehicle_make",
+    "key": "make",
+    "label": "MAKE",
+    "matched_label": "car",
+    "section": "VEHICLE",
+    "source": "Car: BMW",
+    "status": "matched",
+    "value": "BMW"
+   },
+   {
+    "hint": "matched from \"Model: X5\"",
+    "item_name": "vehicle_model",
+    "key": "model",
+    "label": "MODEL",
+    "matched_label": "model",
+    "section": "VEHICLE",
+    "source": "Model: X5",
+    "status": "matched",
+    "value": "X5"
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "condition",
+    "key": "condition",
+    "label": "CONDITION",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "transport_type",
+    "key": "trailer_type",
+    "label": "TRAILER TYPE",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "matched from \"Type: suv\"",
+    "item_name": "vehicle_type",
+    "key": "vehicle_type",
+    "label": "VEHICLE TYPE",
+    "matched_label": "type",
+    "section": "VEHICLE",
+    "source": "Type: suv",
+    "status": "matched",
+    "value": "suv"
+   },
+   {
+    "hint": "matched from \"Date of move: 2026-12-01\"",
+    "item_name": "first_available_date",
+    "key": "ship_date",
+    "label": "SHIP DATE",
+    "matched_label": "date of move",
+    "section": "SHIPMENT",
+    "source": "Date of move: 2026-12-01",
+    "status": "matched",
+    "value": "2026-12-01"
+   },
+   {
+    "hint": "matched from \"Comments: none\"",
+    "item_name": "notes",
+    "key": "notes",
+    "label": "NOTES",
+    "matched_label": "comments",
+    "section": "SHIPMENT",
+    "source": "Comments: none",
+    "status": "matched",
+    "value": "none"
+   }
+  ],
+  "summary": {
+   "matched": 9,
+   "not_found": 9,
+   "review": 0,
+   "vehicles_detected": 2
+  },
+  "vehicles": [
+   [
+    {
+     "hint": "matched from \"Year: 2022\"",
+     "item_name": "vehicle_year",
+     "key": "year",
+     "label": "YEAR",
+     "matched_label": "year",
+     "section": "VEHICLE",
+     "source": "Year: 2022",
+     "status": "matched",
+     "value": "2022"
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "vehicle_make",
+     "key": "make",
+     "label": "MAKE",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    },
+    {
+     "hint": "matched from \"Model: X5\"",
+     "item_name": "vehicle_model",
+     "key": "model",
+     "label": "MODEL",
+     "matched_label": "model",
+     "section": "VEHICLE",
+     "source": "Model: X5",
+     "status": "matched",
+     "value": "X5"
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "condition",
+     "key": "condition",
+     "label": "CONDITION",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "transport_type",
+     "key": "trailer_type",
+     "label": "TRAILER TYPE",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    },
+    {
+     "hint": "matched from \"Type: suv\"",
+     "item_name": "vehicle_type",
+     "key": "vehicle_type",
+     "label": "VEHICLE TYPE",
+     "matched_label": "type",
+     "section": "VEHICLE",
+     "source": "Type: suv",
+     "status": "matched",
+     "value": "suv"
+    }
+   ],
+   [
+    {
+     "hint": "no match found in email",
+     "item_name": "vehicle_year",
+     "key": "year",
+     "label": "YEAR",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    },
+    {
+     "hint": "matched from \"Car: BMW\"",
+     "item_name": "vehicle_make",
+     "key": "make",
+     "label": "MAKE",
+     "matched_label": "car",
+     "section": "VEHICLE",
+     "source": "Car: BMW",
+     "status": "matched",
+     "value": "BMW"
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "vehicle_model",
+     "key": "model",
+     "label": "MODEL",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "condition",
+     "key": "condition",
+     "label": "CONDITION",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "transport_type",
+     "key": "trailer_type",
+     "label": "TRAILER TYPE",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "vehicle_type",
+     "key": "vehicle_type",
+     "label": "VEHICLE TYPE",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    }
+   ]
+  ]
+ },
+ "default_labels": {
+  "fields": [
+   {
+    "hint": "matched from \"First Name: John\"",
+    "item_name": "customer_first_name",
+    "key": "first_name",
+    "label": "FIRST NAME",
+    "matched_label": "first name",
+    "section": "SHIPPER",
+    "source": "First Name: John",
+    "status": "matched",
+    "value": "John"
+   },
+   {
+    "hint": "matched from \"Last Name: Doe\"",
+    "item_name": "customer_last_name",
+    "key": "last_name",
+    "label": "LAST NAME",
+    "matched_label": "last name",
+    "section": "SHIPPER",
+    "source": "Last Name: Doe",
+    "status": "matched",
+    "value": "Doe"
+   },
+   {
+    "hint": "matched from \"Phone: (773) 555-0199\"",
+    "item_name": "customer_phone",
+    "key": "phone",
+    "label": "PHONE",
+    "matched_label": "phone",
+    "section": "SHIPPER",
+    "source": "Phone: (773) 555-0199",
+    "status": "matched",
+    "value": "(773) 555-0199"
+   },
+   {
+    "hint": "matched from \"Email: john.doe@Example.com\"",
+    "item_name": "customer_email",
+    "key": "email",
+    "label": "EMAIL",
+    "matched_label": "email",
+    "section": "SHIPPER",
+    "source": "Email: john.doe@Example.com",
+    "status": "matched",
+    "value": "john.doe@Example.com"
+   },
+   {
+    "hint": "matched from \"Pickup City: Chicago\"",
+    "item_name": "origin_city",
+    "key": "pickup_city",
+    "label": "PICKUP CITY",
+    "matched_label": "pickup city",
+    "section": "LOCATION",
+    "source": "Pickup City: Chicago",
+    "status": "matched",
+    "value": "Chicago"
+   },
+   {
+    "hint": "matched from \"Pickup State: IL\"",
+    "item_name": "origin_state",
+    "key": "pickup_state",
+    "label": "PICKUP STATE",
+    "matched_label": "pickup state",
+    "section": "LOCATION",
+    "source": "Pickup State: IL",
+    "status": "matched",
+    "value": "IL"
+   },
+   {
+    "hint": "matched from \"Pickup Zip: 60601\"",
+    "item_name": "origin_zip",
+    "key": "pickup_zip",
+    "label": "PICKUP ZIP",
+    "matched_label": "pickup zip",
+    "section": "LOCATION",
+    "source": "Pickup Zip: 60601",
+    "status": "matched",
+    "value": "60601"
+   },
+   {
+    "hint": "matched from \"Delivery City: Dallas\"",
+    "item_name": "destination_city",
+    "key": "delivery_city",
+    "label": "DELIVERY CITY",
+    "matched_label": "delivery city",
+    "section": "LOCATION",
+    "source": "Delivery City: Dallas",
+    "status": "matched",
+    "value": "Dallas"
+   },
+   {
+    "hint": "matched from \"Delivery State: tx\"",
+    "item_name": "destination_state",
+    "key": "delivery_state",
+    "label": "DELIVERY STATE",
+    "matched_label": "delivery state",
+    "section": "LOCATION",
+    "source": "Delivery State: tx",
+    "status": "matched",
+    "value": "tx"
+   },
+   {
+    "hint": "matched from \"Delivery Zip: 75201-1234\"",
+    "item_name": "destination_zip",
+    "key": "delivery_zip",
+    "label": "DELIVERY ZIP",
+    "matched_label": "delivery zip",
+    "section": "LOCATION",
+    "source": "Delivery Zip: 75201-1234",
+    "status": "matched",
+    "value": "75201-1234"
+   },
+   {
+    "hint": "matched from \"Year: 2021\"",
+    "item_name": "vehicle_year",
+    "key": "year",
+    "label": "YEAR",
+    "matched_label": "year",
+    "section": "VEHICLE",
+    "source": "Year: 2021",
+    "status": "matched",
+    "value": "2021"
+   },
+   {
+    "hint": "matched from \"Make: Honda\"",
+    "item_name": "vehicle_make",
+    "key": "make",
+    "label": "MAKE",
+    "matched_label": "make",
+    "section": "VEHICLE",
+    "source": "Make: Honda",
+    "status": "matched",
+    "value": "Honda"
+   },
+   {
+    "hint": "matched from \"Model: Civic\"",
+    "item_name": "vehicle_model",
+    "key": "model",
+    "label": "MODEL",
+    "matched_label": "model",
+    "section": "VEHICLE",
+    "source": "Model: Civic",
+    "status": "matched",
+    "value": "Civic"
+   },
+   {
+    "hint": "matched from \"Condition: running\"",
+    "item_name": "condition",
+    "key": "condition",
+    "label": "CONDITION",
+    "matched_label": "condition",
+    "section": "VEHICLE",
+    "source": "Condition: running",
+    "status": "matched",
+    "value": "running"
+   },
+   {
+    "hint": "matched from \"Trailer Type: Enclosed\"",
+    "item_name": "transport_type",
+    "key": "trailer_type",
+    "label": "TRAILER TYPE",
+    "matched_label": "trailer type",
+    "section": "VEHICLE",
+    "source": "Trailer Type: Enclosed",
+    "status": "matched",
+    "value": "Enclosed"
+   },
+   {
+    "hint": "matched from \"Vehicle Type: SUV SMALL\"",
+    "item_name": "vehicle_type",
+    "key": "vehicle_type",
+    "label": "VEHICLE TYPE",
+    "matched_label": "vehicle type",
+    "section": "VEHICLE",
+    "source": "Vehicle Type: SUV SMALL",
+    "status": "matched",
+    "value": "SUV SMALL"
+   },
+   {
+    "hint": "matched from \"First Available Date: 11/02/2026\"",
+    "item_name": "first_available_date",
+    "key": "ship_date",
+    "label": "SHIP DATE",
+    "matched_label": "first available date",
+    "section": "SHIPMENT",
+    "source": "First Available Date: 11/02/2026",
+    "status": "matched",
+    "value": "11/02/2026"
+   },
+   {
+    "hint": "matched from \"Notes: call before pickup, gate 4; thanks\"",
+    "item_name": "notes",
+    "key": "notes",
+    "label": "NOTES",
+    "matched_label": "notes",
+    "section": "SHIPMENT",
+    "source": "Notes: call before pickup, gate 4; thanks",
+    "status": "matched",
+    "value": "call before pickup, gate 4; thanks"
+   }
+  ],
+  "summary": {
+   "matched": 18,
+   "not_found": 0,
+   "review": 0,
+   "vehicles_detected": 1
+  },
+  "vehicles": [
+   [
+    {
+     "hint": "matched from \"Year: 2021\"",
+     "item_name": "vehicle_year",
+     "key": "year",
+     "label": "YEAR",
+     "matched_label": "year",
+     "section": "VEHICLE",
+     "source": "Year: 2021",
+     "status": "matched",
+     "value": "2021"
+    },
+    {
+     "hint": "matched from \"Make: Honda\"",
+     "item_name": "vehicle_make",
+     "key": "make",
+     "label": "MAKE",
+     "matched_label": "make",
+     "section": "VEHICLE",
+     "source": "Make: Honda",
+     "status": "matched",
+     "value": "Honda"
+    },
+    {
+     "hint": "matched from \"Model: Civic\"",
+     "item_name": "vehicle_model",
+     "key": "model",
+     "label": "MODEL",
+     "matched_label": "model",
+     "section": "VEHICLE",
+     "source": "Model: Civic",
+     "status": "matched",
+     "value": "Civic"
+    },
+    {
+     "hint": "matched from \"Condition: running\"",
+     "item_name": "condition",
+     "key": "condition",
+     "label": "CONDITION",
+     "matched_label": "condition",
+     "section": "VEHICLE",
+     "source": "Condition: running",
+     "status": "matched",
+     "value": "running"
+    },
+    {
+     "hint": "matched from \"Trailer Type: Enclosed\"",
+     "item_name": "transport_type",
+     "key": "trailer_type",
+     "label": "TRAILER TYPE",
+     "matched_label": "trailer type",
+     "section": "VEHICLE",
+     "source": "Trailer Type: Enclosed",
+     "status": "matched",
+     "value": "Enclosed"
+    },
+    {
+     "hint": "matched from \"Vehicle Type: SUV SMALL\"",
+     "item_name": "vehicle_type",
+     "key": "vehicle_type",
+     "label": "VEHICLE TYPE",
+     "matched_label": "vehicle type",
+     "section": "VEHICLE",
+     "source": "Vehicle Type: SUV SMALL",
+     "status": "matched",
+     "value": "SUV SMALL"
+    }
+   ]
+  ]
+ },
+ "empty_and_garbage": {
+  "fields": [
+   {
+    "hint": "no match found in email",
+    "item_name": "customer_first_name",
+    "key": "first_name",
+    "label": "FIRST NAME",
+    "matched_label": null,
+    "section": "SHIPPER",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "customer_last_name",
+    "key": "last_name",
+    "label": "LAST NAME",
+    "matched_label": null,
+    "section": "SHIPPER",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "low confidence \u2014 matched \"12345\"",
+    "item_name": "customer_phone",
+    "key": "phone",
+    "label": "PHONE",
+    "matched_label": "phone",
+    "section": "SHIPPER",
+    "source": "Phone: 12345",
+    "status": "review",
+    "value": "12345"
+   },
+   {
+    "hint": "low confidence \u2014 matched \"not-an-email\"",
+    "item_name": "customer_email",
+    "key": "email",
+    "label": "EMAIL",
+    "matched_label": "email",
+    "section": "SHIPPER",
+    "source": "Email: not-an-email",
+    "status": "review",
+    "value": "not-an-email"
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "origin_city",
+    "key": "pickup_city",
+    "label": "PICKUP CITY",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "origin_state",
+    "key": "pickup_state",
+    "label": "PICKUP STATE",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "low confidence \u2014 matched \"1234\"",
+    "item_name": "origin_zip",
+    "key": "pickup_zip",
+    "label": "PICKUP ZIP",
+    "matched_label": "pickup zip",
+    "section": "LOCATION",
+    "source": "Pickup Zip: 1234",
+    "status": "review",
+    "value": "1234"
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "destination_city",
+    "key": "delivery_city",
+    "label": "DELIVERY CITY",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "destination_state",
+    "key": "delivery_state",
+    "label": "DELIVERY STATE",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "destination_zip",
+    "key": "delivery_zip",
+    "label": "DELIVERY ZIP",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "low confidence \u2014 matched \"19\"",
+    "item_name": "vehicle_year",
+    "key": "year",
+    "label": "YEAR",
+    "matched_label": "year",
+    "section": "VEHICLE",
+    "source": "Year: 19",
+    "status": "review",
+    "value": "19"
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "vehicle_make",
+    "key": "make",
+    "label": "MAKE",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "vehicle_model",
+    "key": "model",
+    "label": "MODEL",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "condition",
+    "key": "condition",
+    "label": "CONDITION",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "transport_type",
+    "key": "trailer_type",
+    "label": "TRAILER TYPE",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "vehicle_type",
+    "key": "vehicle_type",
+    "label": "VEHICLE TYPE",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "first_available_date",
+    "key": "ship_date",
+    "label": "SHIP DATE",
+    "matched_label": null,
+    "section": "SHIPMENT",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "notes",
+    "key": "notes",
+    "label": "NOTES",
+    "matched_label": null,
+    "section": "SHIPMENT",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   }
+  ],
+  "summary": {
+   "matched": 0,
+   "not_found": 14,
+   "review": 4,
+   "vehicles_detected": 1
+  },
+  "vehicles": [
+   [
+    {
+     "hint": "low confidence \u2014 matched \"19\"",
+     "item_name": "vehicle_year",
+     "key": "year",
+     "label": "YEAR",
+     "matched_label": "year",
+     "section": "VEHICLE",
+     "source": "Year: 19",
+     "status": "review",
+     "value": "19"
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "vehicle_make",
+     "key": "make",
+     "label": "MAKE",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "vehicle_model",
+     "key": "model",
+     "label": "MODEL",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "condition",
+     "key": "condition",
+     "label": "CONDITION",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "transport_type",
+     "key": "trailer_type",
+     "label": "TRAILER TYPE",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "vehicle_type",
+     "key": "vehicle_type",
+     "label": "VEHICLE TYPE",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    }
+   ]
+  ]
+ },
+ "none_text": {
+  "fields": [
+   {
+    "hint": "no match found in email",
+    "item_name": "customer_first_name",
+    "key": "first_name",
+    "label": "FIRST NAME",
+    "matched_label": null,
+    "section": "SHIPPER",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "customer_last_name",
+    "key": "last_name",
+    "label": "LAST NAME",
+    "matched_label": null,
+    "section": "SHIPPER",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "customer_phone",
+    "key": "phone",
+    "label": "PHONE",
+    "matched_label": null,
+    "section": "SHIPPER",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "customer_email",
+    "key": "email",
+    "label": "EMAIL",
+    "matched_label": null,
+    "section": "SHIPPER",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "origin_city",
+    "key": "pickup_city",
+    "label": "PICKUP CITY",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "origin_state",
+    "key": "pickup_state",
+    "label": "PICKUP STATE",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "origin_zip",
+    "key": "pickup_zip",
+    "label": "PICKUP ZIP",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "destination_city",
+    "key": "delivery_city",
+    "label": "DELIVERY CITY",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "destination_state",
+    "key": "delivery_state",
+    "label": "DELIVERY STATE",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "destination_zip",
+    "key": "delivery_zip",
+    "label": "DELIVERY ZIP",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "vehicle_year",
+    "key": "year",
+    "label": "YEAR",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "vehicle_make",
+    "key": "make",
+    "label": "MAKE",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "vehicle_model",
+    "key": "model",
+    "label": "MODEL",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "condition",
+    "key": "condition",
+    "label": "CONDITION",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "transport_type",
+    "key": "trailer_type",
+    "label": "TRAILER TYPE",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "vehicle_type",
+    "key": "vehicle_type",
+    "label": "VEHICLE TYPE",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "first_available_date",
+    "key": "ship_date",
+    "label": "SHIP DATE",
+    "matched_label": null,
+    "section": "SHIPMENT",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "notes",
+    "key": "notes",
+    "label": "NOTES",
+    "matched_label": null,
+    "section": "SHIPMENT",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   }
+  ],
+  "summary": {
+   "matched": 0,
+   "not_found": 18,
+   "review": 0,
+   "vehicles_detected": 0
+  },
+  "vehicles": []
+ },
+ "two_vehicles_numbered": {
+  "fields": [
+   {
+    "hint": "matched from \"Name: Mary Major\"",
+    "item_name": "customer_first_name",
+    "key": "first_name",
+    "label": "FIRST NAME",
+    "matched_label": "name",
+    "section": "SHIPPER",
+    "source": "Name: Mary Major",
+    "status": "matched",
+    "value": "Mary Major"
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "customer_last_name",
+    "key": "last_name",
+    "label": "LAST NAME",
+    "matched_label": null,
+    "section": "SHIPPER",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "matched from \"Phone: 3125550101\"",
+    "item_name": "customer_phone",
+    "key": "phone",
+    "label": "PHONE",
+    "matched_label": "phone",
+    "section": "SHIPPER",
+    "source": "Phone: 3125550101",
+    "status": "matched",
+    "value": "3125550101"
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "customer_email",
+    "key": "email",
+    "label": "EMAIL",
+    "matched_label": null,
+    "section": "SHIPPER",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "matched from \"Origin: Miami, FL\"",
+    "item_name": "origin_city",
+    "key": "pickup_city",
+    "label": "PICKUP CITY",
+    "matched_label": "origin",
+    "section": "LOCATION",
+    "source": "Origin: Miami, FL",
+    "status": "matched",
+    "value": "Miami, FL"
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "origin_state",
+    "key": "pickup_state",
+    "label": "PICKUP STATE",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "origin_zip",
+    "key": "pickup_zip",
+    "label": "PICKUP ZIP",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "matched from \"Destination: Atlanta\"",
+    "item_name": "destination_city",
+    "key": "delivery_city",
+    "label": "DELIVERY CITY",
+    "matched_label": "destination",
+    "section": "LOCATION",
+    "source": "Destination: Atlanta",
+    "status": "matched",
+    "value": "Atlanta"
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "destination_state",
+    "key": "delivery_state",
+    "label": "DELIVERY STATE",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "destination_zip",
+    "key": "delivery_zip",
+    "label": "DELIVERY ZIP",
+    "matched_label": null,
+    "section": "LOCATION",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "matched from \"Vehicle 1 Year: 2019\"",
+    "item_name": "vehicle_year",
+    "key": "year",
+    "label": "YEAR",
+    "matched_label": "year",
+    "section": "VEHICLE",
+    "source": "Vehicle 1 Year: 2019",
+    "status": "matched",
+    "value": "2019"
+   },
+   {
+    "hint": "matched from \"Vehicle 1 Make: Ford\"",
+    "item_name": "vehicle_make",
+    "key": "make",
+    "label": "MAKE",
+    "matched_label": "make",
+    "section": "VEHICLE",
+    "source": "Vehicle 1 Make: Ford",
+    "status": "matched",
+    "value": "Ford"
+   },
+   {
+    "hint": "matched from \"Vehicle 1 Model: Explorer\"",
+    "item_name": "vehicle_model",
+    "key": "model",
+    "label": "MODEL",
+    "matched_label": "model",
+    "section": "VEHICLE",
+    "source": "Vehicle 1 Model: Explorer",
+    "status": "matched",
+    "value": "Explorer"
+   },
+   {
+    "hint": "matched from \"Condition 2: inop\"",
+    "item_name": "condition",
+    "key": "condition",
+    "label": "CONDITION",
+    "matched_label": "condition",
+    "section": "VEHICLE",
+    "source": "Condition 2: inop",
+    "status": "matched",
+    "value": "inop"
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "transport_type",
+    "key": "trailer_type",
+    "label": "TRAILER TYPE",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "vehicle_type",
+    "key": "vehicle_type",
+    "label": "VEHICLE TYPE",
+    "matched_label": null,
+    "section": "VEHICLE",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   },
+   {
+    "hint": "matched from \"Ship Date: March 5, 2027\"",
+    "item_name": "first_available_date",
+    "key": "ship_date",
+    "label": "SHIP DATE",
+    "matched_label": "ship date",
+    "section": "SHIPMENT",
+    "source": "Ship Date: March 5, 2027",
+    "status": "matched",
+    "value": "March 5, 2027"
+   },
+   {
+    "hint": "no match found in email",
+    "item_name": "notes",
+    "key": "notes",
+    "label": "NOTES",
+    "matched_label": null,
+    "section": "SHIPMENT",
+    "source": null,
+    "status": "not_found",
+    "value": null
+   }
+  ],
+  "summary": {
+   "matched": 9,
+   "not_found": 9,
+   "review": 0,
+   "vehicles_detected": 2
+  },
+  "vehicles": [
+   [
+    {
+     "hint": "matched from \"Vehicle 1 Year: 2019\"",
+     "item_name": "vehicle_year",
+     "key": "year",
+     "label": "YEAR",
+     "matched_label": "year",
+     "section": "VEHICLE",
+     "source": "Vehicle 1 Year: 2019",
+     "status": "matched",
+     "value": "2019"
+    },
+    {
+     "hint": "matched from \"Vehicle 1 Make: Ford\"",
+     "item_name": "vehicle_make",
+     "key": "make",
+     "label": "MAKE",
+     "matched_label": "make",
+     "section": "VEHICLE",
+     "source": "Vehicle 1 Make: Ford",
+     "status": "matched",
+     "value": "Ford"
+    },
+    {
+     "hint": "matched from \"Vehicle 1 Model: Explorer\"",
+     "item_name": "vehicle_model",
+     "key": "model",
+     "label": "MODEL",
+     "matched_label": "model",
+     "section": "VEHICLE",
+     "source": "Vehicle 1 Model: Explorer",
+     "status": "matched",
+     "value": "Explorer"
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "condition",
+     "key": "condition",
+     "label": "CONDITION",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "transport_type",
+     "key": "trailer_type",
+     "label": "TRAILER TYPE",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "vehicle_type",
+     "key": "vehicle_type",
+     "label": "VEHICLE TYPE",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    }
+   ],
+   [
+    {
+     "hint": "matched from \"Vehicle 2 Year: 2020\"",
+     "item_name": "vehicle_year",
+     "key": "year",
+     "label": "YEAR",
+     "matched_label": "year",
+     "section": "VEHICLE",
+     "source": "Vehicle 2 Year: 2020",
+     "status": "matched",
+     "value": "2020"
+    },
+    {
+     "hint": "matched from \"Vehicle 2 Make: Tesla\"",
+     "item_name": "vehicle_make",
+     "key": "make",
+     "label": "MAKE",
+     "matched_label": "make",
+     "section": "VEHICLE",
+     "source": "Vehicle 2 Make: Tesla",
+     "status": "matched",
+     "value": "Tesla"
+    },
+    {
+     "hint": "matched from \"Vehicle 2 Model: Model 3\"",
+     "item_name": "vehicle_model",
+     "key": "model",
+     "label": "MODEL",
+     "matched_label": "model",
+     "section": "VEHICLE",
+     "source": "Vehicle 2 Model: Model 3",
+     "status": "matched",
+     "value": "Model 3"
+    },
+    {
+     "hint": "matched from \"Condition 2: inop\"",
+     "item_name": "condition",
+     "key": "condition",
+     "label": "CONDITION",
+     "matched_label": "condition",
+     "section": "VEHICLE",
+     "source": "Condition 2: inop",
+     "status": "matched",
+     "value": "inop"
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "transport_type",
+     "key": "trailer_type",
+     "label": "TRAILER TYPE",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    },
+    {
+     "hint": "no match found in email",
+     "item_name": "vehicle_type",
+     "key": "vehicle_type",
+     "label": "VEHICLE TYPE",
+     "matched_label": null,
+     "section": "VEHICLE",
+     "source": null,
+     "status": "not_found",
+     "value": null
+    }
+   ]
+  ]
+ }
+}

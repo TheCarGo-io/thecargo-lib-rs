@@ -1,4 +1,12 @@
+#[cfg(feature = "rabbit")]
 pub mod consumer;
+pub mod inbox;
+#[cfg(feature = "rabbit")]
+pub mod outbox;
+#[cfg(feature = "rabbit")]
+pub mod publisher;
+
+pub const EVENTS_EXCHANGE: &str = "thecargo.events";
 
 // aio-pika reads "amqp://host:5672/" as the default vhost "/"; lapin reads the empty path segment
 // as a vhost named "" and the broker refuses it. The Python services' URLs end in "/", so

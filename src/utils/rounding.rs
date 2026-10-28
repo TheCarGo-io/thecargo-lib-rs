@@ -69,3 +69,65 @@ mod tests {
         assert_eq!(py_round(0.5, 0), 0.0);
     }
 }
+
+pub fn py_float_repr(value: f64) -> String {
+    if value.is_nan() {
+        return "nan".to_owned();
+    }
+    if value.is_infinite() {
+        return if value > 0.0 { "inf" } else { "-inf" }.to_owned();
+    }
+    if value == 0.0 {
+        return if value.is_sign_negative() { "-0.0" } else { "0.0" }.to_owned();
+    }
+    let scientific = format!("{value:e}");
+    let (mantissa, exponent) = scientific.split_once('e').unwrap_or((scientific.as_str(), "0"));
+    let exponent: i32 = exponent.parse().unwrap_or(0);
+    let sign = if mantissa.starts_with('-') { "-" } else { "" };
+    let digits: String = mantissa.chars().filter(char::is_ascii_digit).collect();
+    if !(-4..16).contains(&exponent) {
+        let (first, rest) = digits.split_at(1);
+        let fraction = if rest.is_empty() { String::new() } else { format!(".{rest}") };
+        let exponent_sign = if exponent < 0 { '-' } else { '+' };
+        return format!("{sign}{first}{fraction}e{exponent_sign}{:02}", exponent.abs());
+    }
+    let point = exponent + 1;
+    if point <= 0 {
+        let zeros = usize::try_from(-point).unwrap_or(0);
+        return format!("{sign}0.{}{digits}", "0".repeat(zeros));
+    }
+    let point = usize::try_from(point).unwrap_or(0);
+    if digits.len() <= point {
+        return format!("{sign}{digits}{}.0", "0".repeat(point - digits.len()));
+    }
+    let (whole, fraction) = digits.split_at(point);
+    format!("{sign}{whole}.{fraction}")
+}
+
+#[cfg(test)]
+mod repr_tests {
+    use super::py_float_repr;
+
+    #[test]
+    fn floats_print_like_python_str() {
+        let cases = [
+            (950.0, "950.0"),
+            (1234.56, "1234.56"),
+            (0.5, "0.5"),
+            (0.05, "0.05"),
+            (1e16, "1e+16"),
+            (1.5e-7, "1.5e-07"),
+            (100.0, "100.0"),
+            (0.0, "0.0"),
+            (-0.0, "-0.0"),
+            (12_345_678_901_234.56, "12345678901234.56"),
+            (0.0001, "0.0001"),
+            (0.000_123_4, "0.0001234"),
+            (123_456_789_012_345.67, "123456789012345.67"),
+            (-42.5, "-42.5"),
+        ];
+        for (value, expected) in cases {
+            assert_eq!(py_float_repr(value), expected, "{value}");
+        }
+    }
+}

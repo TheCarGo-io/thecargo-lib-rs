@@ -190,6 +190,7 @@ impl From<sqlx::Error> for ApiError {
     }
 }
 
+#[cfg(feature = "clickhouse")]
 impl From<clickhouse::error::Error> for ApiError {
     fn from(error: clickhouse::error::Error) -> Self {
         Self::internal_from(&error)

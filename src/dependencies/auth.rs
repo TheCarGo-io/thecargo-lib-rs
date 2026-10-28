@@ -2,10 +2,13 @@ use std::collections::{HashMap, HashSet};
 use std::sync::Arc;
 use std::time::Duration;
 
-use axum::extract::{FromRef, FromRequestParts};
+use axum::extract::{FromRef, FromRequestParts, Request, State};
 use axum::http::request::Parts;
 use axum::http::{HeaderMap, StatusCode, header};
-use jsonwebtoken::{Algorithm, DecodingKey, Validation};
+use axum::middleware::Next;
+use axum::response::Response;
+pub use jsonwebtoken::DecodingKey;
+use jsonwebtoken::{Algorithm, Validation};
 use redis::aio::ConnectionManager;
 use secrecy::{ExposeSecret, SecretString};
 use serde_json::Value;
@@ -207,7 +210,7 @@ impl std::fmt::Debug for AuthState {
 
 // The validation PyJWT applies when it is given no audience: HS256 only, exp and nbf checked when
 // present with no leeway, and no claim required.
-fn pyjwt_validation() -> Validation {
+pub(crate) fn pyjwt_validation() -> Validation {
     let mut validation = Validation::new(Algorithm::HS256);
     validation.leeway = 0;
     validation.validate_exp = true;
@@ -307,7 +310,7 @@ fn as_whole_number(value: &Value) -> Option<i64> {
 }
 
 // PyJWT 2.10 and later refuse a token whose iat lies in the future.
-fn issued_in_future(claims: &serde_json::Map<String, Value>) -> bool {
+pub(crate) fn issued_in_future(claims: &serde_json::Map<String, Value>) -> bool {
     claims.get("iat").and_then(as_whole_number).is_some_and(|iat| iat > chrono::Utc::now().timestamp())
 }
 
@@ -442,7 +445,26 @@ fn enforce_org_type(user: &TokenPayload, allowed: &HashSet<String>) -> Result<()
 }
 
 #[derive(Debug, Clone)]
-pub struct CurrentUser(pub TokenPayload);
+pub struct Authenticated(pub Result<Arc<TokenPayload>, ApiError>);
+
+pub async fn authenticate(State(auth): State<AuthState>, mut request: Request, next: Next) -> Response {
+    if let Ok(token) = bearer_token(request.headers()) {
+        let decoded = decode_access_token(token, &auth.keys).map(Arc::new);
+        request.extensions_mut().insert(Authenticated(decoded));
+    }
+    next.run(request).await
+}
+
+fn decoded_user(parts: &Parts, keys: &AuthKeys) -> Result<Arc<TokenPayload>, ApiError> {
+    match parts.extensions.get::<Authenticated>() {
+        Some(Authenticated(Ok(user))) => Ok(Arc::clone(user)),
+        Some(Authenticated(Err(err))) => Err(err.clone()),
+        None => Ok(Arc::new(decode_access_token(bearer_token(&parts.headers)?, keys)?)),
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct CurrentUser(pub Arc<TokenPayload>);
 
 impl<S> FromRequestParts<S> for CurrentUser
 where
@@ -453,7 +475,7 @@ where
 
     async fn from_request_parts(parts: &mut Parts, state: &S) -> Result<Self, Self::Rejection> {
         let auth = AuthState::from_ref(state);
-        let user = decode_access_token(bearer_token(&parts.headers)?, &auth.keys)?;
+        let user = decoded_user(parts, &auth.keys)?;
         enforce_org_type(&user, &auth.keys.allowed_org_types)?;
         enforce_token_state(&auth.redis, &user).await?;
         Ok(Self(user))
@@ -469,7 +491,7 @@ pub trait Permission {
 // The caller and the scope a permission grants them; refused with 403 before any parameter is read.
 #[derive(Debug, Clone)]
 pub struct Requires<P> {
-    pub user: TokenPayload,
+    pub user: Arc<TokenPayload>,
     pub scope: Scope,
     permission: std::marker::PhantomData<P>,
 }

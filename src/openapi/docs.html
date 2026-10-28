@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>TheCargo Analytics — API Reference</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      body { font-family: 'Inter', sans-serif; padding-top: 56px; }
+      .tc-bar {
+        position: fixed; top: 0; left: 0; right: 0; height: 56px;
+        background: #ffffff; border-bottom: 1px solid #e5e7eb;
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 0 24px; z-index: 100000;
+      }
+      .tc-logo { display: flex; align-items: center; text-decoration: none; }
+      .tc-logo img { height: 22px; width: auto; display: block; }
+      .tc-nav { display: flex; align-items: center; gap: 2px; }
+      .tc-nav a {
+        font-size: 13px; font-weight: 500; color: #6b7280; text-decoration: none;
+        padding: 6px 10px; border-radius: 5px; transition: color 0.15s, background 0.15s;
+      }
+      .tc-nav a:hover { color: #111827; background: #f3f4f6; }
+      .tc-nav a.active { color: #f97316; font-weight: 600; }
+      .tc-menu { position: relative; }
+      .tc-menu > summary {
+        display: flex; align-items: center; gap: 6px; cursor: pointer; list-style: none;
+        font-size: 13px; font-weight: 600; color: #f97316; padding: 6px 10px; border-radius: 5px;
+      }
+      .tc-menu > summary::-webkit-details-marker { display: none; }
+      .tc-menu > summary::after {
+        content: ''; width: 6px; height: 6px; margin-top: -3px;
+        border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+        transform: rotate(45deg);
+      }
+      .tc-menu[open] > summary::after { margin-top: 2px; transform: rotate(-135deg); }
+      .tc-menu > summary:hover { background: #f3f4f6; }
+      .tc-menu-list {
+        position: absolute; right: 0; top: calc(100% + 6px); min-width: 210px;
+        display: flex; flex-direction: column; padding: 6px; background: #ffffff;
+        border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+      }
+      .tc-menu-list a { white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div class="tc-bar">
+      <a class="tc-logo" href="/docs/"><img src="https://pub-61785bc505824c66ba56b7004c2a1d21.r2.dev/email/thecargo-wordmark.png" alt="TheCargo" /></a>
+      <nav class="tc-nav">
+        <a href="/docs/">APIs</a>
+        <details class="tc-menu">
+          <summary>Analytics Service</summary>
+          <div class="tc-menu-list">
+          <a href="/auth/docs">Auth Service</a>
+          <a href="/shipment/docs">Shipment Service</a>
+          <a href="/billing/docs">Billing Service</a>
+          <a href="/communication/docs">Communication Service</a>
+          <a href="/loadboard/docs">Loadboard Service</a>
+          <a href="/socket/docs">Socket Service</a>
+          <a href="/audit/docs">Audit Service</a>
+          <a href="/analytics/docs" class="active">Analytics Service</a>
+          <a href="/mailbox/docs">Mailbox Service</a>
+          </div>
+        </details>
+        <a href="mailto:support@thecargo.io">Support</a>
+      </nav>
+    </div>
+    <script
+      id="api-reference"
+      data-url="/analytics/openapi.json"
+      data-configuration='{"theme":"purple","darkMode":false,"layout":"modern","defaultHttpClient":{"targetKey":"shell","clientKey":"curl"},"hideTagNavContent":true,"hideModels":true,"authentication":{"preferredSecurityScheme":"BearerAuth"},"customCss":".sidebar{top:56px!important;height:calc(100vh - 56px)!important;} .references-sidebar{top:56px!important;}"}'
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+    <script>
+      document.addEventListener('click', function (event) {
+        document.querySelectorAll('.tc-menu[open]').forEach(function (menu) {
+          if (!menu.contains(event.target)) menu.removeAttribute('open');
+        });
+      });
+    </script>
+  </body>
+</html>

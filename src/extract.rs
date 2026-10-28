@@ -41,12 +41,19 @@ where
         match axum::extract::Path::<T>::from_request_parts(parts, state).await {
             Ok(axum::extract::Path(value)) => Ok(Path(value)),
             Err(PathRejection::FailedToDeserializePathParams(err)) => {
-                let key = match err.kind() {
-                    axum::extract::path::ErrorKind::ParseErrorAtKey { key, .. }
-                    | axum::extract::path::ErrorKind::InvalidUtf8InPathParam { key } => key.clone(),
-                    _ => String::new(),
+                use axum::extract::path::ErrorKind;
+                let (key, reason) = match err.kind() {
+                    ErrorKind::DeserializeError { key, value, message } => (key.clone(), path_reason(value, message)),
+                    ErrorKind::ParseErrorAtKey { key, expected_type, .. } => {
+                        (key.clone(), parse_reason(expected_type).to_owned())
+                    }
+                    ErrorKind::ParseError { expected_type, .. } => {
+                        (String::new(), parse_reason(expected_type).to_owned())
+                    }
+                    ErrorKind::InvalidUtf8InPathParam { key } => (key.clone(), err.body_text()),
+                    _ => (String::new(), err.body_text()),
                 };
-                Err(invalid("path", &key, &err.body_text()))
+                Err(invalid("path", &key, &reason))
             }
             Err(other) => {
                 tracing::error!(error = %other, "path parameters are missing from a matched route");
@@ -72,12 +79,56 @@ where
         }
         let bytes =
             Bytes::from_request(request, state).await.map_err(|err| ApiError::http(err.status(), err.body_text()))?;
-        let mut deserializer = serde_json::Deserializer::from_slice(&bytes);
-        let value = serde_path_to_error::deserialize(&mut deserializer)
-            .map_err(|err| invalid("", &err.path().to_string(), &err.inner().to_string()))?;
-        deserializer.end().map_err(|err| invalid("", "", &err.to_string()))?;
-        Ok(Json(value))
+        Ok(Json(from_slice(&bytes)?))
     }
+}
+
+pub fn from_slice<T: DeserializeOwned>(bytes: &[u8]) -> Result<T, ApiError> {
+    from_slice_at("", bytes)
+}
+
+fn json_offset(bytes: &[u8], line: usize, column: usize) -> usize {
+    let text = String::from_utf8_lossy(bytes);
+    let skipped: usize = text.split('\n').take(line.saturating_sub(1)).map(|row| row.chars().count() + 1).sum();
+    skipped + column.saturating_sub(1)
+}
+
+pub fn from_slice_at<T: DeserializeOwned>(prefix: &str, bytes: &[u8]) -> Result<T, ApiError> {
+    if bytes.iter().all(u8::is_ascii_whitespace) {
+        let mut violations = Violations::default();
+        violations.missing(prefix);
+        return Err(violations.finish().err().unwrap_or_else(ApiError::internal));
+    }
+    let mut deserializer = serde_json::Deserializer::from_slice(bytes);
+    let value = serde_path_to_error::deserialize(&mut deserializer).map_err(|err| {
+        if err.inner().is_syntax() || err.inner().is_eof() {
+            let offset = json_offset(bytes, err.inner().line(), err.inner().column());
+            return invalid(prefix, &offset.to_string(), "JSON decode error");
+        }
+        let message = err.inner().to_string();
+        let message = if message.starts_with("UUID parsing failed") {
+            raw_string_at(bytes, err.path())
+                .map_or(message, |raw| format!("Input should be a valid UUID, {}", uuid_error(&raw)))
+        } else {
+            message
+        };
+        invalid(prefix, &err.path().to_string(), &message)
+    })?;
+    deserializer.end().map_err(|err| invalid(prefix, "", &err.to_string()))?;
+    Ok(value)
+}
+
+fn raw_string_at(bytes: &[u8], path: &serde_path_to_error::Path) -> Option<String> {
+    let document: Value = serde_json::from_slice(bytes).ok()?;
+    let mut cursor = &document;
+    for segment in path {
+        cursor = match segment {
+            serde_path_to_error::Segment::Map { key } => cursor.get(key)?,
+            serde_path_to_error::Segment::Seq { index } => cursor.get(*index)?,
+            serde_path_to_error::Segment::Enum { .. } | serde_path_to_error::Segment::Unknown => return None,
+        };
+    }
+    cursor.as_str().map(str::to_owned)
 }
 
 fn is_json(request: &Request) -> bool {
@@ -92,9 +143,9 @@ fn is_json(request: &Request) -> bool {
         })
 }
 
-// FastAPI joins the location with dots and drops the "body" segment; serde reports a missing
-// field on its parent, so the field's name is taken from the message.
 fn invalid(prefix: &str, path: &str, message: &str) -> ApiError {
+    let reason = pydantic_reason(message);
+    let message = reason.as_str();
     let missing = message.strip_prefix("missing field `").and_then(|rest| rest.split('`').next());
     let segments = [prefix, path.trim_matches('.'), missing.unwrap_or_default()];
     let loc = segments.iter().filter(|part| !part.is_empty()).copied().collect::<Vec<_>>().join(".");
@@ -116,25 +167,75 @@ fn invalid(prefix: &str, path: &str, message: &str) -> ApiError {
     ApiError::validation(vec![field])
 }
 
-// pydantic's ge/le (and gt/lt) failures as the lib's handler classifies them: only gt/lt put their
-// bound in `limit`, so a ge/le failure reports `limit: None`, exactly as Python does.
-pub fn out_of_range(loc: &str, too_small: bool, strict_bound: Option<Value>) -> ApiError {
-    ApiError::validation(vec![range_error(loc, too_small, strict_bound)])
+fn pydantic_reason(message: &str) -> String {
+    let message = message.rfind(" at line ").map_or(message, |idx| &message[..idx]);
+    if message.starts_with("unknown variant `")
+        && let Some((_, expected)) = message.split_once(", expected ")
+    {
+        let choices: Vec<&str> = expected.trim_start_matches("one of ").split('`').skip(1).step_by(2).collect();
+        return format!("Input should be {}", quoted_choices(&choices));
+    }
+    if message.starts_with("invalid type: ")
+        && let Some((_, expected)) = message.split_once(", expected ")
+    {
+        return type_reason(expected).to_owned();
+    }
+    message.to_owned()
 }
 
-pub fn range_error(loc: &str, too_small: bool, strict_bound: Option<Value>) -> FieldError {
+fn type_reason(expected: &str) -> &'static str {
+    if expected.contains("string") {
+        "Input should be a valid string"
+    } else if expected.contains("boolean") {
+        "Input should be a valid boolean, unable to interpret input"
+    } else if expected.contains("f32") || expected.contains("f64") || expected.contains("float") {
+        "Input should be a valid number"
+    } else if expected.starts_with('i') || expected.starts_with('u') || expected.contains("integer") {
+        "Input should be a valid integer"
+    } else if expected.contains("sequence") || expected.contains("array") {
+        "Input should be a valid list"
+    } else if expected.contains("map") || expected.starts_with("struct") {
+        "Input should be a valid dictionary or object to extract fields from"
+    } else {
+        "Input should be a valid value"
+    }
+}
+
+fn path_reason(value: &str, message: &str) -> String {
+    if message.contains("UUID parsing failed") {
+        return format!("Input should be a valid UUID, {}", uuid_error(value));
+    }
+    message.to_owned()
+}
+
+fn parse_reason(expected_type: &str) -> &'static str {
+    match type_reason(expected_type) {
+        "Input should be a valid integer" => "Input should be a valid integer, unable to parse string as an integer",
+        "Input should be a valid number" => "Input should be a valid number, unable to parse string as a number",
+        other => other,
+    }
+}
+
+pub fn out_of_range(loc: &str, too_small: bool, bound: Value, strict: bool) -> ApiError {
+    ApiError::validation(vec![range_error(loc, too_small, bound, strict)])
+}
+
+pub fn range_error(loc: &str, too_small: bool, bound: Value, strict: bool) -> FieldError {
+    let comparison = match (too_small, strict) {
+        (true, true) => "greater than",
+        (true, false) => "greater than or equal to",
+        (false, true) => "less than",
+        (false, false) => "less than or equal to",
+    };
+    let fallback = format!("Input should be {comparison} {bound}");
     let mut params = Map::new();
     params.insert("field".to_owned(), Value::from(loc));
-    params.insert("limit".to_owned(), strict_bound.unwrap_or(Value::Null));
-    let (code, key, fallback) = if too_small {
-        ("TOO_SMALL", "validation.too_small", "Input should be greater than or equal to the minimum")
-    } else {
-        ("TOO_LARGE", "validation.too_large", "Input should be less than or equal to the maximum")
-    };
-    FieldError { loc: loc.to_owned(), code, key, params, fallback: fallback.to_owned() }
+    params.insert("limit".to_owned(), if strict { bound } else { Value::Null });
+    let (code, key) =
+        if too_small { ("TOO_SMALL", "validation.too_small") } else { ("TOO_LARGE", "validation.too_large") };
+    FieldError { loc: loc.to_owned(), code, key, params, fallback }
 }
 
-// Any other pydantic failure the lib's handler does not classify: its message becomes the reason.
 pub fn invalid_value(loc: &str, reason: &str) -> FieldError {
     let mut params = Map::new();
     params.insert("field".to_owned(), Value::from(loc));
@@ -148,24 +249,80 @@ pub fn invalid_value(loc: &str, reason: &str) -> FieldError {
     }
 }
 
-// Constraint failures collected in field order, the way pydantic reports every one of them.
+pub fn value_error(loc: &str, reason: &str) -> FieldError {
+    let mut params = Map::new();
+    params.insert("field".to_owned(), Value::from(loc));
+    params.insert("reason".to_owned(), Value::from(reason));
+    FieldError {
+        loc: loc.to_owned(),
+        code: "VALUE_ERROR",
+        key: "validation.value_error",
+        params,
+        fallback: format!("Value error, {reason}"),
+    }
+}
+
+pub fn pattern_mismatch(loc: &str, pattern: &str) -> FieldError {
+    let mut params = Map::new();
+    params.insert("field".to_owned(), Value::from(loc));
+    FieldError {
+        loc: loc.to_owned(),
+        code: "PATTERN_MISMATCH",
+        key: "validation.pattern_mismatch",
+        params,
+        fallback: format!("String should match pattern '{pattern}'"),
+    }
+}
+
 #[derive(Debug, Default)]
 pub struct Violations(Vec<FieldError>);
 
 impl Violations {
+    pub fn is_empty(&self) -> bool {
+        self.0.is_empty()
+    }
+
+    pub fn len(&self) -> usize {
+        self.0.len()
+    }
+
+    pub fn iter(&self) -> impl Iterator<Item = &FieldError> {
+        self.0.iter()
+    }
+
+    pub fn push(&mut self, field: FieldError) {
+        self.0.push(field);
+    }
+
+    pub fn string(&mut self, loc: &str, value: &Value) -> Option<String> {
+        if let Value::String(text) = value {
+            return Some(text.clone());
+        }
+        self.0.push(invalid_value(loc, type_reason("string")));
+        None
+    }
+
+    pub fn object<'a>(&mut self, loc: &str, value: &'a Value) -> Option<&'a Map<String, Value>> {
+        if let Value::Object(map) = value {
+            return Some(map);
+        }
+        self.0.push(invalid_value(loc, type_reason("map")));
+        None
+    }
+
     pub fn range(&mut self, loc: &str, value: i64, min: Option<i64>, max: Option<i64>) {
-        if min.is_some_and(|min| value < min) {
-            self.0.push(range_error(loc, true, None));
-        } else if max.is_some_and(|max| value > max) {
-            self.0.push(range_error(loc, false, None));
+        if let Some(min) = min.filter(|min| value < *min) {
+            self.0.push(range_error(loc, true, Value::from(min), false));
+        } else if let Some(max) = max.filter(|max| value > *max) {
+            self.0.push(range_error(loc, false, Value::from(max), false));
         }
     }
 
     pub fn range_f64(&mut self, loc: &str, value: f64, min: Option<f64>, max: Option<f64>) {
-        if min.is_some_and(|min| value < min) {
-            self.0.push(range_error(loc, true, None));
-        } else if max.is_some_and(|max| value > max) {
-            self.0.push(range_error(loc, false, None));
+        if let Some(min) = min.filter(|min| value < *min) {
+            self.0.push(range_error(loc, true, Value::from(min), false));
+        } else if let Some(max) = max.filter(|max| value > *max) {
+            self.0.push(range_error(loc, false, Value::from(max), false));
         }
     }
 
@@ -203,7 +360,6 @@ impl Violations {
         });
     }
 
-    // A required field the request left out; its value when it is there.
     pub fn required<T: Copy>(&mut self, loc: &str, value: Option<T>) -> Option<T> {
         if value.is_none() {
             self.missing(loc);
@@ -238,8 +394,6 @@ impl Violations {
     }
 }
 
-// Why a string is not a UUID, worded as the uuid crate's 1.21 diagnostics that pydantic-core
-// shows; later releases of the crate word it differently. Called only for a string that failed.
 pub fn uuid_error(text: &str) -> String {
     const BLOCK_STARTS: [usize; 5] = [0, 9, 14, 19, 24];
     let bytes = text.as_bytes();
@@ -285,7 +439,6 @@ pub fn uuid_error(text: &str) -> String {
     format!("invalid group length in group 4: expected 12, found {}", text.len().saturating_sub(BLOCK_STARTS[4]))
 }
 
-// pydantic's enum message: 'a', 'b' or 'c'.
 fn quoted_choices(allowed: &[&str]) -> String {
     let quoted: Vec<String> = allowed.iter().map(|v| format!("'{v}'")).collect();
     match quoted.split_last() {
@@ -303,6 +456,21 @@ pub fn within(loc: &str, value: i64, min: i64, max: i64) -> Result<i64, ApiError
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn malformed_and_empty_bodies_read_like_fastapi() {
+        let error = from_slice::<serde_json::Value>(b"{not json").unwrap_err();
+        let rendered = serde_json::to_value(error.render(crate::i18n::Lang::En)).unwrap();
+        assert_eq!(rendered["errors"][0]["loc"], "1");
+        assert_eq!(rendered["errors"][0]["message"], "JSON decode error");
+        let error = from_slice::<serde_json::Value>(b"{\n  \"a\": 1,\n  oops").unwrap_err();
+        let rendered = serde_json::to_value(error.render(crate::i18n::Lang::En)).unwrap();
+        assert_eq!(rendered["errors"][0]["loc"], "14");
+        let error = from_slice::<serde_json::Value>(b"  ").unwrap_err();
+        let rendered = serde_json::to_value(error.render(crate::i18n::Lang::En)).unwrap();
+        assert_eq!(rendered["errors"][0]["message"], "Field required");
+        assert_eq!(rendered["errors"][0]["loc"], "");
+    }
+
     use axum::body::Body;
     use serde::Deserialize;
 
@@ -323,6 +491,33 @@ mod tests {
 
     fn first_field(error: &ApiError) -> serde_json::Value {
         serde_json::to_value(error.render(crate::i18n::Lang::En)).unwrap()["errors"][0].clone()
+    }
+
+    #[test]
+    fn serde_type_errors_read_like_pydantic() {
+        assert_eq!(
+            pydantic_reason("invalid type: null, expected a string at line 1 column 10"),
+            "Input should be a valid string"
+        );
+        assert_eq!(pydantic_reason("invalid type: string \"x\", expected i64"), "Input should be a valid integer");
+        assert_eq!(
+            pydantic_reason("invalid type: string \"x\", expected a boolean"),
+            "Input should be a valid boolean, unable to interpret input"
+        );
+        assert_eq!(pydantic_reason("invalid type: integer `1`, expected a sequence"), "Input should be a valid list");
+    }
+
+    #[test]
+    fn an_unknown_enum_variant_reads_as_pydantic_reports_it() {
+        assert_eq!(
+            pydantic_reason("unknown variant `x`, expected one of `OPEN`, `ENCLOSED`, `DRIVE_AWAY` at line 1 column 9"),
+            "Input should be 'OPEN', 'ENCLOSED' or 'DRIVE_AWAY'"
+        );
+        assert_eq!(
+            pydantic_reason("unknown variant `x`, expected `pickup` or `delivery`"),
+            "Input should be 'pickup' or 'delivery'"
+        );
+        assert_eq!(pydantic_reason("missing field `name` at line 1 column 12"), "missing field `name`");
     }
 
     #[test]
@@ -393,5 +588,45 @@ mod tests {
             .unwrap();
         let field = first_field(&Json::<Window>::from_request(request, &()).await.unwrap_err());
         assert_eq!(field["loc"], "period");
+    }
+}
+
+#[cfg(test)]
+mod path_tests {
+    use super::*;
+
+    #[test]
+    fn a_malformed_uuid_path_param_reads_like_pydantic() {
+        assert_eq!(
+            path_reason("not-a-uuid", "UUID parsing failed: invalid character"),
+            "Input should be a valid UUID, invalid character: expected an optional prefix of `urn:uuid:` followed by [0-9a-fA-F-], found `n` at 1"
+        );
+        assert_eq!(parse_reason("u32"), "Input should be a valid integer, unable to parse string as an integer");
+    }
+}
+
+#[cfg(test)]
+mod uuid_body_tests {
+    use serde::Deserialize;
+
+    use super::*;
+
+    #[derive(Debug, Deserialize)]
+    struct Body {
+        #[expect(dead_code, reason = "deserialized to trigger the error")]
+        shipment_id: uuid::Uuid,
+    }
+
+    #[tokio::test]
+    async fn a_malformed_uuid_in_a_body_reads_like_pydantic() {
+        use axum::response::IntoResponse;
+        let error = from_slice::<Body>(br#"{"shipment_id": "x"}"#).expect_err("rejected");
+        let bytes = axum::body::to_bytes(error.into_response().into_body(), usize::MAX).await.expect("body");
+        let body: Value = serde_json::from_slice(&bytes).expect("json");
+        assert_eq!(body["errors"][0]["loc"], "shipment_id");
+        assert_eq!(
+            body["errors"][0]["message"],
+            "Input should be a valid UUID, invalid character: expected an optional prefix of `urn:uuid:` followed by [0-9a-fA-F-], found `x` at 1"
+        );
     }
 }

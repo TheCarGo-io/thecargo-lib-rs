@@ -11,7 +11,7 @@ use jsonwebtoken::DecodingKey;
 use redis::aio::ConnectionManager;
 use serde_json::{Value, json};
 
-use crate::dependencies::auth::{bearer_token, decode_claims};
+use crate::dependencies::auth::{Authenticated, bearer_token, decode_claims};
 use crate::dependencies::service_auth::{SERVICE_SECRET_HEADER, ServiceSecret};
 
 const TOKEN_BUCKET_SCRIPT: &str = r"
@@ -116,6 +116,11 @@ impl RateLimiter {
         let secret = request.headers().get(SERVICE_SECRET_HEADER).and_then(|value| value.to_str().ok());
         if self.service_secret.matches(secret) {
             return None;
+        }
+        match request.extensions().get::<Authenticated>() {
+            Some(Authenticated(Ok(user))) => return Some(user.org_id.to_string()),
+            Some(Authenticated(Err(_))) => return None,
+            None => {}
         }
         let token = bearer_token(request.headers()).ok()?;
         match decode_claims(token, &self.decoding)?.get("org_id")? {

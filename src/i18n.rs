@@ -29,6 +29,23 @@ pub struct Locales {
 }
 
 impl Locales {
+    pub fn base() -> Self {
+        Self::from_json(
+            include_str!("../locale/en.json"),
+            include_str!("../locale/ru.json"),
+            include_str!("../locale/uz.json"),
+        )
+        .unwrap_or_default()
+    }
+
+    #[must_use]
+    pub fn merge(mut self, other: Self) -> Self {
+        for (lang, table) in other.tables {
+            self.tables.entry(lang).or_default().extend(table);
+        }
+        self
+    }
+
     pub fn from_json(en: &str, ru: &str, uz: &str) -> Result<Self, serde_json::Error> {
         let tables = [(Lang::En, en), (Lang::Ru, ru), (Lang::Uz, uz)]
             .into_iter()
@@ -54,6 +71,11 @@ pub fn bind_locales(locales: Locales) {
     if BOUND.set(locales).is_err() {
         tracing::debug!("locales were already bound");
     }
+}
+
+pub fn bind_service_locales(en: &str, ru: &str, uz: &str) -> Result<(), serde_json::Error> {
+    bind_locales(Locales::base().merge(Locales::from_json(en, ru, uz)?));
+    Ok(())
 }
 
 pub fn translate(key: &str, lang: Lang, params: &Map<String, Value>) -> Option<String> {
@@ -128,6 +150,16 @@ mod tests {
         assert_eq!(locales.translate("plain", Lang::Ru, &Map::new()).as_deref(), Some("Простой"));
         assert_eq!(locales.translate("plain", Lang::Uz, &Map::new()).as_deref(), Some("Plain"));
         assert_eq!(locales.translate("absent", Lang::En, &Map::new()), None);
+    }
+
+    #[test]
+    fn the_base_locales_parse_and_service_keys_win() {
+        let base = Locales::base();
+        assert_eq!(base.translate("common.not_found", Lang::Uz, &Map::new()).as_deref(), Some("Topilmadi"));
+        let merged = base.merge(Locales::from_json(r#"{"common.not_found": "Gone", "x.y": "Z"}"#, "{}", "{}").unwrap());
+        assert_eq!(merged.translate("common.not_found", Lang::En, &Map::new()).as_deref(), Some("Gone"));
+        assert_eq!(merged.translate("x.y", Lang::Ru, &Map::new()).as_deref(), Some("Z"));
+        assert_eq!(merged.translate("common.conflict", Lang::Ru, &Map::new()).as_deref(), Some("Конфликт состояния"));
     }
 
     #[test]

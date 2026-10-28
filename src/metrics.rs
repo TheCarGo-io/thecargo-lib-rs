@@ -32,20 +32,30 @@ pub fn install() -> Option<PrometheusHandle> {
 
 #[derive(Debug, Clone)]
 pub struct Pools {
-    pub main: PgPool,
+    pools: Vec<(&'static str, PgPool)>,
 }
 
 impl Pools {
+    pub fn single(main: PgPool) -> Self {
+        Self::named(vec![("main", main)])
+    }
+
+    pub fn named(pools: Vec<(&'static str, PgPool)>) -> Self {
+        Self { pools }
+    }
+
     fn refresh(&self) {
-        let size = self.main.size();
-        let idle = u32::try_from(self.main.num_idle()).unwrap_or(u32::MAX);
-        metrics::gauge!("db_pool_size", "pool" => "main").set(f64::from(self.main.options().get_max_connections()));
-        metrics::gauge!("db_pool_checked_out", "pool" => "main").set(f64::from(size.saturating_sub(idle)));
-        metrics::gauge!("db_pool_overflow", "pool" => "main").set(0.0);
+        for (name, pool) in &self.pools {
+            let size = pool.size();
+            let idle = u32::try_from(pool.num_idle()).unwrap_or(u32::MAX);
+            metrics::gauge!("db_pool_size", "pool" => *name).set(f64::from(pool.options().get_max_connections()));
+            metrics::gauge!("db_pool_checked_out", "pool" => *name).set(f64::from(size.saturating_sub(idle)));
+            metrics::gauge!("db_pool_overflow", "pool" => *name).set(0.0);
+        }
     }
 }
 
-pub async fn track(State(pools): State<Pools>, request: Request, next: Next) -> Response {
+pub async fn track(request: Request, next: Next) -> Response {
     let method = request.method().as_str();
     let method = if METHODS.contains(&method) { method.to_owned() } else { "OTHER".to_owned() };
     let route = request
@@ -60,7 +70,6 @@ pub async fn track(State(pools): State<Pools>, request: Request, next: Next) -> 
         .increment(1);
     metrics::histogram!("http_request_duration_seconds", "method" => method, "route" => route, "status" => status)
         .record(started.elapsed().as_secs_f64());
-    pools.refresh();
     response
 }
 

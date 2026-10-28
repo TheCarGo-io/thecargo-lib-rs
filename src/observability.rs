@@ -1,4 +1,4 @@
-use secrecy::{ExposeSecret, SecretString};
+use secrecy::SecretString;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 use tracing_subscriber::{EnvFilter, fmt};
@@ -13,9 +13,13 @@ pub struct SentrySettings {
 
 pub fn init_logging(log_level: &str) {
     let filter = EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new(log_level.to_ascii_lowercase()));
+    #[cfg(feature = "sentry")]
+    let error_layer = Some(sentry::integrations::tracing::layer());
+    #[cfg(not(feature = "sentry"))]
+    let error_layer: Option<tracing_subscriber::layer::Identity> = None;
     let result = tracing_subscriber::registry()
         .with(filter)
-        .with(sentry::integrations::tracing::layer())
+        .with(error_layer)
         .with(fmt::layer().json().with_target(false).with_current_span(true))
         .try_init();
     if let Err(err) = result {
@@ -24,7 +28,10 @@ pub fn init_logging(log_level: &str) {
 }
 
 // Errors go to GlitchTip through its Sentry endpoint; no SENTRY_DSN means no client at all.
+#[cfg(feature = "sentry")]
 pub fn init_sentry(settings: &SentrySettings) -> Option<sentry::ClientInitGuard> {
+    use secrecy::ExposeSecret;
+
     let dsn = settings.dsn.as_ref().map(|dsn| dsn.expose_secret().trim().to_owned()).filter(|dsn| !dsn.is_empty())?;
     install_tls_provider();
     let mut options = sentry::ClientOptions::default();

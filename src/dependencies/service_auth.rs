@@ -12,7 +12,7 @@ use crate::handlers::ApiError;
 
 pub const SERVICE_SECRET_HEADER: &str = "x-service-secret";
 pub const COMPANY_HEADER: &str = "x-company-id";
-const THE_ORGANIZATION: &str = "organization";
+pub const THE_ORGANIZATION: &str = "organization";
 
 #[derive(Clone)]
 pub struct ServiceSecret(Arc<SecretString>);

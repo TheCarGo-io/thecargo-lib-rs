@@ -1,5 +1,5 @@
 use std::sync::Arc;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 use futures_util::StreamExt;
 use lapin::message::Delivery;
@@ -16,7 +16,7 @@ use tokio_util::sync::CancellationToken;
 
 use crate::events::amqp_url;
 
-pub const EVENTS_EXCHANGE: &str = "thecargo.events";
+pub use crate::events::EVENTS_EXCHANGE;
 const RECONNECT_DELAY: Duration = Duration::from_secs(5);
 const DRAIN_TIMEOUT: Duration = Duration::from_secs(20);
 
@@ -170,6 +170,7 @@ fn report(done: Result<(), tokio::task::JoinError>, queue: &str) {
 
 async fn process<H: Handler>(handler: Arc<H>, delivery: Delivery, spec: ConsumerSpec, cancel: CancellationToken) {
     let routing_key = delivery.routing_key.as_str().to_owned();
+    let started = Instant::now();
     let result = match serde_json::from_slice::<Value>(&delivery.data) {
         Ok(body) => handler.handle(&routing_key, body).await,
         Err(err) => Err(anyhow::Error::new(err).context("the message body is not JSON")),
@@ -178,7 +179,16 @@ async fn process<H: Handler>(handler: Arc<H>, delivery: Delivery, spec: Consumer
         tracing::error!(queue = %spec.queue, routing_key, error = format!("{err:#}"), "failed to process message");
     }
 
-    let settled = match outcome(&result, spec.requeue_failed, delivery.redelivered) {
+    let decided = outcome(&result, spec.requeue_failed, delivery.redelivered);
+    let label = match (decided, result.is_ok()) {
+        (_, true) => "ok",
+        (Outcome::Requeue, false) => "requeued",
+        (Outcome::Ack, false) => "dropped",
+    };
+    metrics::counter!("events_consumed_total", "queue" => spec.queue.clone(), "routing_key" => routing_key.clone(), "outcome" => label)
+        .increment(1);
+    metrics::histogram!("events_handle_seconds", "queue" => spec.queue.clone()).record(started.elapsed().as_secs_f64());
+    let settled = match decided {
         Outcome::Ack => delivery.ack(BasicAckOptions::default()).await,
         Outcome::Requeue => {
             tokio::select! {

@@ -67,7 +67,7 @@ pub async fn cache_invalidate(redis: &ConnectionManager, keys: &[String]) {
     }
 }
 
-async fn cache_set_raw(redis: &ConnectionManager, key: &str, raw: &str, ttl_seconds: u64) {
+pub async fn cache_set_raw(redis: &ConnectionManager, key: &str, raw: &str, ttl_seconds: u64) {
     let mut conn = redis.clone();
     match tokio::time::timeout(REDIS_TIMEOUT, conn.set_ex::<_, _, ()>(key, raw, ttl_seconds)).await {
         Ok(Ok(())) => {}
